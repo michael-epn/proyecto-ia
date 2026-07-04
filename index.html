@@ -1,83 +1,125 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clasificador de Mascotas IA</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasificador de Mascotas IA</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <header>
-    <h1>Clasificador de Mascotas con IA</h1>
-    <p>Proyecto Segundo Bimestre - Fundamentos de la Inteligencia Artificial</p>
-  </header>
+    <header class="hero">
+        <img src="img/perro.png" class="mascota perro" alt="Perro">
+        <img src="img/gato.png" class="mascota gato" alt="Gato">
 
-  <main class="contenedor">
+        <div class="badge">🐾 IA que reconoce razas de perros y gatos</div>
+        <h1>Clasificador de <span>Mascotas con IA</span></h1>
+        <p>Proyecto Segundo Bimestre - Fundamentos de la Inteligencia Artificial</p>
+    </header>
 
-    <section class="card info">
-      <h2>¿Qué hace el sistema?</h2>
-      <p>
-        Este sistema permite subir una imagen de una mascota y la IA predice
-        si pertenece a una raza de perro o gato entrenada con el dataset Oxford Pets.
-      </p>
-    </section>
+    <main class="contenedor">
 
-    <section class="card">
-      <h2>Subir imagen</h2>
+        <section class="card resumen">
+            <div class="icono">🤖</div>
+            <div>
+                <h2>¿Qué hace el sistema?</h2>
+                <p>
+                    Este sistema permite subir una imagen de una mascota y la IA predice
+                    la raza a la que pertenece, utilizando el dataset Oxford-IIIT Pets.
+                </p>
+            </div>
 
-      <div class="upload-box">
-        <input type="file" id="imagenInput" accept="image/*">
-        <p>Selecciona una imagen de un perro o gato</p>
-      </div>
+            <div class="datos">
+                <div>
+                    <strong>37</strong>
+                    <span>Razas</span>
+                </div>
+                <div>
+                    <strong>~7K</strong>
+                    <span>Imágenes</span>
+                </div>
+            </div>
+        </section>
 
-      <img id="preview" class="preview oculto" alt="Vista previa">
+        <section class="dos-columnas">
 
-      <button onclick="enviarImagen()">Predecir mascota</button>
+            <section class="card">
+                <h2>Subir imagen de tu mascota</h2>
 
-      <div id="resultado" class="resultado">
-        Esperando imagen...
-      </div>
-    </section>
+                <label class="upload-box" for="imagenInput">
+                    <input type="file" id="imagenInput" accept="image/*">
+                    <div class="nube">☁️⬆️</div>
+                    <strong>Arrastra o selecciona una imagen aquí</strong>
+                    <p>Formatos permitidos: JPG, PNG, JPEG</p>
+                </label>
 
-    <section class="card metricas">
-      <h2>Métricas del modelo</h2>
+                <button onclick="enviarImagen()">🔍 Predecir raza</button>
+            </section>
 
-      <div class="grid">
-        <div>
-          <h3>Accuracy</h3>
-          <p id="accuracy">--%</p>
-        </div>
+            <section class="card">
+                <h2>Vista previa</h2>
 
-        <div>
-          <h3>Precisión</h3>
-          <p id="precision">--%</p>
-        </div>
+                <div class="preview-box">
+                    <img id="preview" class="preview oculto" alt="Vista previa">
+                    <p id="textoPreview">🐾 La imagen aparecerá aquí</p>
+                </div>
 
-        <div>
-          <h3>Recall</h3>
-          <p id="recall">--%</p>
-        </div>
-      </div>
-    </section>
+                <h2>Resultado de la predicción</h2>
 
-    <section class="card">
-      <h2>Parámetros usados</h2>
-      <ul>
-        <li>Dataset: Oxford-IIIT Pet Dataset</li>
-        <li>Tipo de problema: Clasificación de imágenes</li>
-        <li>Entrada: Imagen de mascota</li>
-        <li>Salida: Raza o categoría predicha</li>
-      </ul>
-    </section>
+                <div id="resultado" class="resultado">
+                    <div class="estrella">⭐</div>
+                    <div>
+                        <strong>--</strong>
+                        <p>Raza o categoría</p>
+                        <span>Confianza: --%</span>
+                    </div>
+                </div>
+            </section>
 
-  </main>
+        </section>
 
-  <footer>
-    <p>Proyecto Segundo Bimestre - Fundamentos de Inteligencia Artificial</p>
-    <p>Desarrollado por: ALEX SUAREZ - MICHAEL VARGAS - EDWIN CHUSIN</p>
-  </footer>
+        <section class="card metricas">
+            <h2>Métricas del modelo</h2>
 
-  <script src="script.js"></script>
+            <div class="grid">
+                <div class="metrica">
+                    <h3>Accuracy:</h3>
+                    <p id="accuracy">--%</p>
+                </div>
+
+                <div class="metrica">
+                    <h3>Precisión:</h3>
+                    <p id="precision">--%</p>
+                </div>
+
+                <div class="metrica">
+                    <h3>Recall:</h3>
+                    <p id="recall">--%</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card parametros">
+            <h2>Parámetros y datos</h2>
+
+            <div class="tabla">
+                <p><strong>Dataset:</strong> Oxford-IIIT Pet Dataset</p>
+                <p><strong>Tipo de problema:</strong> Clasificación de imágenes</p>
+                <p><strong>Entrada:</strong> Imagen de mascota</p>
+                <p><strong>Salida:</strong> Raza o categoría predicha</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Proyecto Segundo Bimestre - Fundamentos de Inteligencia Artificial</p>
+        <p>Desarrollado por: ALEX SUAREZ - MICHAEL VARGAS - EDWIN CHUSIN</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
