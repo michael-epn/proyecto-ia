@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clasificador de Mascotas IA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Clasificador de Mascotas con IA</h1>
+    <p>Proyecto de Inteligencia Artificial usando el dataset Oxford-IIIT Pets</p>
+  </header>
+
+  <main class="contenedor">
+
+    <section class="card info">
+      <h2>¿Qué hace el sistema?</h2>
+      <p>
+        Este sistema permite subir una imagen de una mascota y la IA predice
+        si pertenece a una raza de perro o gato entrenada con el dataset Oxford Pets.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Subir imagen</h2>
+
+      <div class="upload-box">
+        <input type="file" id="imagenInput" accept="image/*">
+        <p>Selecciona una imagen de un perro o gato</p>
+      </div>
+
+      <img id="preview" class="preview oculto" alt="Vista previa">
+
+      <button onclick="enviarImagen()">Predecir mascota</button>
+
+      <div id="resultado" class="resultado">
+        Esperando imagen...
+      </div>
+    </section>
+
+    <section class="card metricas">
+      <h2>Métricas del modelo</h2>
+
+      <div class="grid">
+        <div>
+          <h3>Accuracy</h3>
+          <p id="accuracy">--%</p>
+        </div>
+
+        <div>
+          <h3>Precisión</h3>
+          <p id="precision">--%</p>
+        </div>
+
+        <div>
+          <h3>Recall</h3>
+          <p id="recall">--%</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Parámetros usados</h2>
+      <ul>
+        <li>Dataset: Oxford-IIIT Pet Dataset</li>
+        <li>Tipo de problema: Clasificación de imágenes</li>
+        <li>Entrada: Imagen de mascota</li>
+        <li>Salida: Raza o categoría predicha</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Proyecto Segundo Bimestre - Fundamentos de Inteligencia Artificial</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
