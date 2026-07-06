@@ -3,7 +3,7 @@ const preview = document.getElementById("preview");
 const textoPreview = document.getElementById("textoPreview");
 const resultado = document.getElementById("resultado");
 
-const API_URL = "http://127.0.0.1:8000/predecir/";
+const API_URL = "https://proyecto-ia-vnhe.onrender.com/predecir/";
 
 // 1. Mostrar vista previa y estado de preparación
 input.addEventListener("change", () => {
