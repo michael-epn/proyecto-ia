@@ -3,10 +3,14 @@ const preview = document.getElementById("preview");
 const textoPreview = document.getElementById("textoPreview");
 const resultado = document.getElementById("resultado");
 
+const API_URL = "http://127.0.0.1:8000/predecir/";
+
+// 1. Mostrar vista previa y estado de preparación
 input.addEventListener("change", () => {
   const archivo = input.files[0];
 
   if (archivo) {
+    // createObjectURL crea una URL temporal en memoria para la imagen
     preview.src = URL.createObjectURL(archivo);
     preview.classList.remove("oculto");
     textoPreview.style.display = "none";
@@ -22,6 +26,7 @@ input.addEventListener("change", () => {
   }
 });
 
+// 2. Consumir la API
 async function enviarImagen() {
   if (input.files.length === 0) {
     alert("Por favor, selecciona una imagen primero.");
@@ -31,8 +36,9 @@ async function enviarImagen() {
   const formData = new FormData();
   formData.append("file", input.files[0]);
 
+  // Mostrar estado de carga mientras el modelo procesa
   resultado.innerHTML = `
-    <div class="estrella">?</div>
+    <div class="estrella">⏳</div>
     <div>
       <strong>Analizando...</strong>
       <p>La IA está revisando la imagen</p>
@@ -41,29 +47,34 @@ async function enviarImagen() {
   `;
 
   try {
-    const respuesta = await fetch("http://127.0.0.1:8000/predecir/", {
+    const respuesta = await fetch(API_URL, {
       method: "POST",
       body: formData
     });
 
+    if (!respuesta.ok) throw new Error("Error en el servidor HTTP");
+
     const datos = await respuesta.json();
 
+    // Renderizar el resultado exitoso (usando la clave 'raza' del backend)
     resultado.innerHTML = `
+      <div class="estrella">⭐</div>
       <div>
-        <strong>${datos.clase_predicha}</strong>
-        <p>Raza o categoría predicha</p>
+        <strong>${datos.raza}</strong>
+        <p>Raza identificada</p>
         <span>Confianza: ${datos.confianza}%</span>
       </div>
     `;
 
   } catch (error) {
-    console.error(error);
+    console.error("Error capturado:", error);
 
     resultado.innerHTML = `
+      <div class="estrella">❌</div>
       <div>
-        <strong>Error</strong>
+        <strong>Error de conexión</strong>
         <p>No se pudo conectar con la API</p>
-        <span>Activa el backend con FastAPI</span>
+        <span>Verifica que FastAPI (Uvicorn) esté ejecutándose</span>
       </div>
     `;
   }

@@ -2,12 +2,11 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import tensorflow as tf
 import numpy as np
-from PIL import Image, ImageOps
+from PIL import Image
 import io
 
 app = FastAPI()
 
-# Esto permite que tu archivo HTML (frontend) pueda comunicarse con esta API
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
@@ -15,34 +14,42 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 1. Cargar el modelo guardado al arrancar el servidor
-modelo = tf.keras.models.load_model("modelo_mnist.h5")
+# 1. Cargar el modelo de mascotas
+modelo = tf.keras.models.load_model("modelo_pets_custom.h5")
+
+# 2. Las 37 clases del Oxford-IIIT Pet Dataset
+CLASES_PETS = [
+    'Abyssinian', 'American Bulldog', 'American Pit Bull Terrier', 'Basset Hound', 
+    'Beagle', 'Bengal', 'Birman', 'Bombay', 'Boxer', 'British Shorthair', 
+    'Chihuahua', 'Egyptian Mau', 'English Cocker Spaniel', 'English Setter', 
+    'German Shorthaired', 'Great Pyrenees', 'Havanese', 'Japanese Chin', 'Keeshond', 
+    'Leonberger', 'Maine Coon', 'Miniature Pinscher', 'Newfoundland', 'Persian', 
+    'Pomeranian', 'Pug', 'Ragdoll', 'Russian Blue', 'Samoyed', 'Scottish Terrier', 
+    'Shiba Inu', 'Siamese', 'Sphynx', 'Staffordshire Bull Terrier', 'Wheaten Terrier', 
+    'Yorkshire Terrier'
+]
 
 @app.post("/predecir/")
 async def predecir(file: UploadFile = File(...)):
-    # 2. Leer la imagen que nos envía el HTML
     image_data = await file.read()
     
-    # 3. Preparar la imagen para el modelo
-    # Convertir a escala de grises
-    image = Image.open(io.BytesIO(image_data)).convert('L')
+    # 3. Preprocesamiento: RGB (color) y 128x128
+    image = Image.open(io.BytesIO(image_data)).convert('RGB')
+    image = image.resize((128, 128))
     
-    # MNIST fue entrenado con números blancos sobre fondo negro. 
-    # Si subes un número negro en fondo blanco, necesitamos invertir los colores:
-    image = ImageOps.invert(image) 
-    
-    # Redimensionar a 28x28 píxeles
-    image = image.resize((28, 28))
-    
-    # Convertir a matriz matemática y estandarizar valores entre 0 y 1
+    # Estandarizar valores (0 a 1) y dar formato (1, 128, 128, 3)
     img_array = np.array(image).astype("float32") / 255.0
-    
-    # Darle la forma que espera la capa convolucional: (1, 28, 28, 1)
-    img_array = img_array.reshape(-1, 28, 28, 1)
+    img_array = img_array.reshape(-1, 128, 128, 3)
 
-    # 4. Hacer la predicción
+    # 4. Predicción
     prediccion = modelo.predict(img_array)
-    categoria = np.argmax(prediccion[0])
+    categoria_idx = np.argmax(prediccion[0])
+    
+    # Obtener el porcentaje de confianza
+    confianza = float(np.max(prediccion[0])) * 100
 
-    # 5. Devolver el resultado en formato JSON
-    return {"numero_predicho": int(categoria)}
+    # 5. Devolver JSON con nombre de raza y porcentaje
+    return {
+        "raza": CLASES_PETS[categoria_idx],
+        "confianza": round(confianza, 2)
+    }
