@@ -15,8 +15,7 @@ app.add_middleware(
 )
 
 # 1. Cargar el modelo de mascotas
-modelo = tf.keras.models.load_model("modelo_pets_custom.h5")
-
+modelo = tf.keras.models.load_model("modelo_pets_custom.keras")
 # 2. Las 37 clases del Oxford-IIIT Pet Dataset
 CLASES_PETS = [
     'Abyssinian', 'American Bulldog', 'American Pit Bull Terrier', 'Basset Hound', 
